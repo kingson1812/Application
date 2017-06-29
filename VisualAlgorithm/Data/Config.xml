@@ -1,0 +1,19 @@
+<Property>
+	<AlgorithmTitle>
+		<Item>Sort</Item>
+		<Item>Seek</Item>
+	</AlgorithmTitle>
+	<AlgorithmContent id="Sort">
+		<Item>Insertion sort</Item>
+		<Item>Selection sort</Item>
+		<Item>Bubble sort</Item>
+		<Item>Quick sort</Item>
+	</AlgorithmContent>
+	<AlgorithmContent id="Seek">
+		<Item>Linear</Item>
+		<Item>Binary</Item>
+		<Item>Deep</Item>
+	</AlgorithmContent>
+</Property>
+
+
