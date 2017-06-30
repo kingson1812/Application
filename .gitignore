@@ -2,3 +2,6 @@
 /VisualAlgorithm/bin
 /VisualAlgorithm/obj
 /VisualAlgorithm/*.user
+*.db
+*.opendb
+*.TMP

@@ -17,6 +17,7 @@ namespace Global
     {
         public static bool g_needUpdatePanel = false;
         public static bool g_onButtonClick = false;
+        public static bool g_needUpdateOptionalPanel = false;
     }
 
     public static class Key

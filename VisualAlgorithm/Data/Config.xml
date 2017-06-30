@@ -10,9 +10,9 @@
 		<Item>Quick sort</Item>
 	</AlgorithmContent>
 	<AlgorithmContent id="Seek">
-		<Item>Linear</Item>
-		<Item>Binary</Item>
-		<Item>Deep</Item>
+		<Item>Linear seek</Item>
+		<Item>Binary seek</Item>
+		<Item>Deep seek</Item>
 	</AlgorithmContent>
 </Property>
 

@@ -26,6 +26,7 @@ namespace VisualAlgorithm
         {
             UIContent.GetInstance().UpdateDataConfig(new DictionaryStructure(Key.g_name[0], comboboxAlgorithm.Text.ToString()));
             Flag.g_needUpdatePanel = true;
+            Flag.g_needUpdateOptionalPanel = true;
         }
 
         private void timerUpdate_Tick(object sender, EventArgs e)
@@ -40,6 +41,25 @@ namespace VisualAlgorithm
             {
                 labelAlName.Text = Define.g_currentAlgorithm; 
             }
+
+            if(Flag.g_needUpdateOptionalPanel)
+            {
+                UIContent.GetInstance().UpdateOptionalPanel(panelOptionalControl);
+                Flag.g_needUpdateOptionalPanel = false;
+            }
+        }
+
+        private void buttonRandom_Click(object sender, EventArgs e)
+        {
+            UIContent.GetInstance().OnRandomClick(textboxRandomArrayNumber,panelGraphic2);
+        }
+
+        private void textboxRandomArrayNumber_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == 8)
+                e.Handled = false;
+            else
+                e.Handled = true;
         }
     }
 }
