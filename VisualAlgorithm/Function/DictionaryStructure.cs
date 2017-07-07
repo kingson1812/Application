@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Function
+﻿namespace Function
 {
     public class DictionaryStructure
     {
@@ -16,6 +10,7 @@ namespace Function
             m_key = key;
             m_value = value;
         }
+
         public string Key
         {
             get

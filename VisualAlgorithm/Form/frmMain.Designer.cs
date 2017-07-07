@@ -77,7 +77,7 @@
             this.comboboxAlgorithm.Name = "comboboxAlgorithm";
             this.comboboxAlgorithm.Size = new System.Drawing.Size(238, 21);
             this.comboboxAlgorithm.TabIndex = 1;
-            this.comboboxAlgorithm.SelectedValueChanged += new System.EventHandler(this.comboboxAlgorithm_SelectedValueChanged);
+            this.comboboxAlgorithm.TextChanged += new System.EventHandler(this.comboboxAlgorithm_SelectedValueChanged);
             // 
             // panelContent
             // 
@@ -157,6 +157,7 @@
             this.textboxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textboxLog.BackColor = System.Drawing.Color.White;
+            this.textboxLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(16)))), ((int)(((byte)(32)))));
             this.textboxLog.Location = new System.Drawing.Point(4, 375);
             this.textboxLog.Multiline = true;
             this.textboxLog.Name = "textboxLog";

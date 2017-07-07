@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Global
+﻿namespace Global
 {
     public static class Define
     {
-        public static string g_prePath = System.IO.Directory.GetCurrentDirectory() + "/../Data";
+        public static string g_prePath = System.IO.Directory.GetCurrentDirectory() + "/../VisualAlgorithm/Data";
         public static string g_configPath = "/Config.xml";
         public static string g_currentAlgorithm = "";
     }

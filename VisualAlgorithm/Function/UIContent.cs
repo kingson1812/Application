@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Function
@@ -92,6 +93,7 @@ namespace Function
 
         public void UpdateOptionalPanel(Panel panel)
         {
+            panel.Controls.Clear();
             string alTitle = GetDataByKey(Key.g_name[0]).ToLower();
             if (alTitle == "sort")
             {
@@ -106,7 +108,7 @@ namespace Function
                 b.TabStop = false;
                 b.Text = "Sort";
                 b.UseVisualStyleBackColor = false;
-                b.Click += B_Click;
+                b.Click += ButtonSort_Click;
 
                 //Create ASC radiobutton
                 RadioButton rb1 = new RadioButton();
@@ -136,9 +138,11 @@ namespace Function
             }
         }
 
-        private void B_Click(object sender, EventArgs e)
+        private void ButtonSort_Click(object sender, EventArgs e)
         {
-
+            CSNI.CreateAlgorithm();
+            CSNI.SetData(CSNI.ConvertToString(CSNI.g_dataArray));
+            string f = Marshal.PtrToStringAnsi(CSNI.GetData());
         }
 
         private void Button_Click(object sender, System.EventArgs e)
@@ -197,14 +201,19 @@ namespace Function
             Define.g_currentAlgorithm = b.Text;
         }
 
-        public void OnRandomClick(TextBox text, Panel panel)
+        public void OnRandomClick(TextBox text, Panel panel, TextBox log)
         {
-            panel.Controls.Clear();
             if (text.Text.Trim() != "")
             {
+                int numbers = int.Parse(text.Text);
+                if (numbers > 300 || numbers<1)
+                {
+                    log.AppendText(numbers + " is too many. You should randomize 1 ~ 300 numbers to reduce lagging\r\n");
+                    return;
+                }
                 try
                 {
-                    int numbers = int.Parse(text.Text);
+                    panel.Controls.Clear();
                     Random r = new Random();
                     panel.SuspendLayout();
 
@@ -213,8 +222,8 @@ namespace Function
                     for (int i = 0; i < numbers; i++)
                     {
                         Label lb = new Label();
-                        lb.Width = numbers > 100 ? 18 : 40;
-                        lb.Height = numbers > 100 ? 12 : 30;
+                        lb.Width = numbers > 100 ? 35 : 40;
+                        lb.Height = numbers > 100 ? 20 : 30;
                         nextX = 10 + (i - newX) * (lb.Width + 10);
                         nextY = 10 + newY * (lb.Height + 10);
                         if (nextX + lb.Width > panel.Width)
@@ -227,7 +236,9 @@ namespace Function
                         lb.AutoSize = false;
                         lb.TextAlign = ContentAlignment.MiddleCenter;
                         lb.Location = new Point(nextX, nextY);
-                        lb.Text = r.Next(-255, 255) + "";
+                        int nextNum = r.Next(-255, 255);
+                        CSNI.g_dataArray.Add(nextNum);
+                        lb.Text = nextNum + "";
                         lb.BackColor = Color.Teal;
                         lb.ForeColor = Color.White;
                         panel.Controls.Add(lb);

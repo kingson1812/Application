@@ -5,3 +5,7 @@
 *.db
 *.opendb
 *.TMP
+/Bin
+/Algorithm/*.user
+/Algorithm/Debug
+/VisualAlgorithm/Debug

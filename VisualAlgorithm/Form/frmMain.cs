@@ -20,6 +20,7 @@ namespace VisualAlgorithm
             new UIContent().CreateInstance();
             fs.Read();
             UIContent.GetInstance().UpdateItem(comboboxAlgorithm);
+            CSNI.g_dataArray = new System.Collections.Generic.List<int>();
         }
 
         private void comboboxAlgorithm_SelectedValueChanged(object sender, EventArgs e)
@@ -51,11 +52,13 @@ namespace VisualAlgorithm
 
         private void buttonRandom_Click(object sender, EventArgs e)
         {
-            UIContent.GetInstance().OnRandomClick(textboxRandomArrayNumber,panelGraphic2);
+            UIContent.GetInstance().OnRandomClick(textboxRandomArrayNumber,panelGraphic2,textboxLog);
         }
 
         private void textboxRandomArrayNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (e.KeyChar == 13)
+                buttonRandom_Click(buttonRandom, new EventArgs());
             if (e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == 8)
                 e.Handled = false;
             else
