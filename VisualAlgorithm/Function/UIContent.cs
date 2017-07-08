@@ -94,8 +94,8 @@ namespace Function
         public void UpdateOptionalPanel(Panel panel)
         {
             panel.Controls.Clear();
-            string alTitle = GetDataByKey(Key.g_name[0]).ToLower();
-            if (alTitle == "sort")
+            string alTitle = Define.g_currentAlgorithm.ToLower();
+            if (alTitle.Contains("sort"))
             {
                 //Create Sort button
                 Button b = new Button();
@@ -132,7 +132,7 @@ namespace Function
                 panel.Controls.Add(rb2);
                 panel.ResumeLayout(false);
             }
-            else if (alTitle == "seek")
+            else if (alTitle.Contains("seek"))
             {
 
             }
@@ -142,6 +142,7 @@ namespace Function
         {
             CSNI.CreateAlgorithm();
             CSNI.SetData(CSNI.ConvertToString(CSNI.g_dataArray));
+            CSNI.Sort(0, false);
             string f = Marshal.PtrToStringAnsi(CSNI.GetData());
         }
 
@@ -197,6 +198,7 @@ namespace Function
         public void OnButtonClick(object sender, System.EventArgs e)
         {
             Flag.g_onButtonClick = true;
+            Flag.g_needUpdateOptionalPanel = true;
             Button b = (Button)sender;
             Define.g_currentAlgorithm = b.Text;
         }
@@ -214,6 +216,8 @@ namespace Function
                 try
                 {
                     panel.Controls.Clear();
+                    if (CSNI.g_dataArray.Count > 0)
+                        CSNI.g_dataArray.Clear();
                     Random r = new Random();
                     panel.SuspendLayout();
 

@@ -35,3 +35,8 @@ E_EXPORT char* GetData()
 	}
 	return (char*)output->c_str();
 }
+
+E_EXPORT void Sort(int sortType, bool asc)
+{
+	Algorithm::GetInstance()->Sort(sortType, asc);
+}

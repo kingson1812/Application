@@ -27,7 +27,6 @@ namespace VisualAlgorithm
         {
             UIContent.GetInstance().UpdateDataConfig(new DictionaryStructure(Key.g_name[0], comboboxAlgorithm.Text.ToString()));
             Flag.g_needUpdatePanel = true;
-            Flag.g_needUpdateOptionalPanel = true;
         }
 
         private void timerUpdate_Tick(object sender, EventArgs e)

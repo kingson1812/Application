@@ -1,6 +1,6 @@
 #pragma once
 #include "Algorithm.h"
-#define E_EXPORT extern __declspec(dllexport) 
+#define E_EXPORT extern __declspec(dllexport)
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,6 +9,8 @@ extern "C" {
 	E_EXPORT Algorithm* GetAlgorithm();
 	E_EXPORT void SetData(char *s);
 	E_EXPORT char* GetData();
+	E_EXPORT void Sort(int, bool asc = true);
+
 #ifdef __cplusplus
 }
 #endif
