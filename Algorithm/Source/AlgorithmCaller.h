@@ -10,6 +10,8 @@ extern "C" {
 	E_EXPORT void SetData(char *s);
 	E_EXPORT char* GetData();
 	E_EXPORT void Sort(int, bool asc = true);
+	E_EXPORT const char* GetProcess();
+
 
 #ifdef __cplusplus
 }

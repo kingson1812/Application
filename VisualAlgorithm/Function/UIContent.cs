@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Function
@@ -117,6 +118,7 @@ namespace Function
                 rb1.Checked = true;
                 rb1.TextAlign = ContentAlignment.MiddleLeft;
                 rb1.Location = new Point(15 + b.Location.X + b.Width, panel.Height / 2 - rb1.Height / 2);
+                rb1.CheckedChanged += Rb1_CheckedChanged;
 
                 RadioButton rb2 = new RadioButton();
                 rb2.Text = "DESC";
@@ -124,6 +126,7 @@ namespace Function
                 rb2.TextAlign = ContentAlignment.MiddleLeft;
                 rb2.Width = 64;
                 rb2.Location = new Point(5 + rb1.Location.X + rb1.Width, rb1.Location.Y);
+                rb2.CheckedChanged += Rb2_CheckedChanged;
 
                 //Add to panel
                 panel.SuspendLayout();
@@ -138,17 +141,31 @@ namespace Function
             }
         }
 
+        private void Rb2_CheckedChanged(object sender, EventArgs e)
+        {
+            Define.g_isASC = !(((RadioButton)sender).Checked);
+        }
+
+        private void Rb1_CheckedChanged(object sender, EventArgs e)
+        {
+            Define.g_isASC = ((RadioButton)sender).Checked;
+        }
+
         private void ButtonSort_Click(object sender, EventArgs e)
         {
             CSNI.CreateAlgorithm();
             CSNI.SetData(CSNI.ConvertToString(CSNI.g_dataArray));
-            CSNI.Sort(0, false);
-            string f = Marshal.PtrToStringAnsi(CSNI.GetData());
+            string data = Marshal.PtrToStringAnsi(CSNI.GetData());
+            CSNI.Sort(GetAlgIndexByName(Define.g_currentAlgorithm), Define.g_isASC);
+            Flag.g_processing = true;
         }
 
         private void Button_Click(object sender, System.EventArgs e)
         {
-            OnButtonClick(sender, e);
+            Flag.g_onButtonClick = true;
+            Flag.g_needUpdateOptionalPanel = true;
+            Button b = (Button)sender;
+            Define.g_currentAlgorithm = b.Text;
         }
 
         /// <summary>
@@ -195,20 +212,45 @@ namespace Function
             return output;
         }
 
-        public void OnButtonClick(object sender, System.EventArgs e)
+        /// <summary>
+        /// Get algorithm by name.
+        /// </summary>
+        /// <param name="algName">Algorithm name</param>
+        /// <returns>index of Alg</returns>
+        public int GetAlgIndexByName(string algName)
         {
-            Flag.g_onButtonClick = true;
-            Flag.g_needUpdateOptionalPanel = true;
-            Button b = (Button)sender;
-            Define.g_currentAlgorithm = b.Text;
+            int alg = -1;
+            if (algName.ToLower().Contains("insertion"))
+            {
+                alg = 0;
+            }
+            else if (algName.ToLower().Contains("selection"))
+            {
+                alg = 1;
+            }
+            else if (algName.ToLower().Contains("bubble"))
+            {
+                alg = 2;
+            }
+            else if (algName.ToLower().Contains("quick"))
+            {
+                alg = 3;
+            }
+            return alg;
         }
 
+        /// <summary>
+        /// Randomize some numbers for input data
+        /// </summary>
+        /// <param name="text">Number of numbers in Label Text</param>
+        /// <param name="panel">Panel contains numbers in type Label</param>
+        /// <param name="log">Log out text for detail</param>
         public void OnRandomClick(TextBox text, Panel panel, TextBox log)
         {
             if (text.Text.Trim() != "")
             {
                 int numbers = int.Parse(text.Text);
-                if (numbers > 300 || numbers<1)
+                if (numbers > 300 || numbers < 1)
                 {
                     log.AppendText(numbers + " is too many. You should randomize 1 ~ 300 numbers to reduce lagging\r\n");
                     return;
@@ -238,6 +280,7 @@ namespace Function
 
                         //Set property
                         lb.AutoSize = false;
+                        lb.Name = "label" + i;
                         lb.TextAlign = ContentAlignment.MiddleCenter;
                         lb.Location = new Point(nextX, nextY);
                         int nextNum = r.Next(-255, 255);
@@ -255,6 +298,102 @@ namespace Function
                     Log.ERROR(ex.ToString());
                 }
             }
+        }
+
+        public async void UpdatePanelDetail(Panel panel, TextBox log)
+        {
+            try
+            {
+                Panel pnlGraphic2 = (Panel)panel.Controls["panelGraphic2"];
+                Panel pnlGraphic1 = (Panel)panel.Controls["panelGraphic1"];
+
+                Label lbl1 = new Label();
+                Label lbl2 = new Label();
+                Label lblCompare = new Label();
+
+                lbl1.Width = 40;
+                lbl1.Height = 30;
+                lbl1.AutoSize = false;
+                lbl1.Name = "label1";
+                lbl1.TextAlign = ContentAlignment.MiddleCenter;
+                lbl1.Location = new Point(pnlGraphic1.Location.X + 10, pnlGraphic1.Height / 2 - lbl1.Height / 2);
+                lbl1.BackColor = Color.Brown;
+                lbl1.ForeColor = Color.White;
+
+                lblCompare.Width = 40;
+                lblCompare.Height = 30;
+                lblCompare.BackColor = pnlGraphic1.BackColor;
+                lblCompare.ForeColor = Color.Black;
+                lblCompare.AutoSize = false;
+                lblCompare.Name = "labelCompare";
+                lblCompare.TextAlign = ContentAlignment.MiddleCenter;
+                lblCompare.Location = new Point(lbl1.Location.X + lbl1.Width + 10, pnlGraphic1.Height / 2 - lbl1.Height / 2);
+
+                lbl2.Width = 40;
+                lbl2.Height = 30;
+                lbl2.AutoSize = false;
+                lbl2.Name = "label2";
+                lbl2.TextAlign = ContentAlignment.MiddleCenter;
+                lbl2.Location = new Point(lblCompare.Location.X + lblCompare.Width + 10, pnlGraphic1.Height / 2 - lbl1.Height / 2);
+                lbl2.BackColor = Color.Gold;
+                lbl2.ForeColor = Color.Black;
+
+                //Add 3 labels to panelGraphic1
+                pnlGraphic1.SuspendLayout();
+                pnlGraphic1.Controls.Clear();
+                pnlGraphic1.Controls.Add(lbl1);
+                pnlGraphic1.Controls.Add(lbl2);
+                pnlGraphic1.Controls.Add(lblCompare);
+                pnlGraphic1.ResumeLayout();
+
+                string process = Marshal.PtrToStringAnsi(CSNI.GetProcess());
+                string[] processArray = process.Split(new char[] { ';' });
+                for (int i = 0; i < processArray.Length; i++)
+                {
+                    Label lbl = null;
+                    int startIndex = 0;
+                    lbl2.Text = ((Label)pnlGraphic2.Controls["label" + i]).Text;
+                    for (int j = 0; j < processArray[i].Length; j++)
+                    {
+                        if (processArray[i][j] == '[' || processArray[i][j] == '<')
+                        {
+                            startIndex = j;
+                            continue;
+                        }
+
+                        if (processArray[i][j] == ']')
+                        {
+                            //Console.WriteLine(int.Parse(processArray[i].Substring(startIndex + 1, j - startIndex-1)));
+                            pnlGraphic2.SuspendLayout();
+                            lbl = ((Label)pnlGraphic2.Controls[("label" + int.Parse(processArray[i].Substring(startIndex + 1, j - startIndex - 1)))]);
+                            lbl.BackColor = Color.Brown;
+                            lbl1.Text = lbl.Text;
+                            pnlGraphic2.ResumeLayout(true);
+
+                            //Delay for viewing UI clearly
+                            await Task.Delay(10000);
+                        }
+
+                        if (processArray[i][j] == '>')
+                        {
+                            string action = processArray[i].Substring(startIndex + 1, j - startIndex - 1);
+                            if (action == "swap")
+                            {
+                                log.AppendText("Swap " + lbl1.Text + " with " + lbl2.Text+"\r\n");
+                            }
+                            else if (action == "noswap")
+                            {
+                                log.AppendText("Don't need to swap, go to next number\r\n");
+                            }
+                            
+                        }
+                        if (lbl != null)
+                            lbl.BackColor = Color.Teal;
+                    }
+                }
+            }
+            catch (Exception ex)
+            { }
         }
     }
 }

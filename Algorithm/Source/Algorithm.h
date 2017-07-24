@@ -32,11 +32,13 @@ extern "C" {
 
 		bool ASC(const int& a,const int& b) const;
 		bool DESC(const int& a, const int& b) const;
+		const char* GetProcessData();
 	private:
 		Algorithm();
 		virtual ~Algorithm();
 		static Algorithm * m_instance;
 		vector<int> *m_data;
+		string m_process;
 	};
 #ifdef  __cplusplus
 }

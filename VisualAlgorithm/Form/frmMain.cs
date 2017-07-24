@@ -3,12 +3,12 @@ using System.Windows.Forms;
 using Function.IO;
 using Function;
 using Global;
+using System.Runtime.InteropServices;
 
 namespace VisualAlgorithm
 {
     public partial class frmMain : Form
     {
-        File        fs = new File(Define.g_prePath + Define.g_configPath);
 
         public frmMain()
         {
@@ -18,7 +18,7 @@ namespace VisualAlgorithm
         private void frmMain_Load(object sender, EventArgs e)
         {
             new UIContent().CreateInstance();
-            fs.Read();
+            new File(Define.g_prePath + Define.g_configPath).Read();
             UIContent.GetInstance().UpdateItem(comboboxAlgorithm);
             CSNI.g_dataArray = new System.Collections.Generic.List<int>();
         }
@@ -26,15 +26,15 @@ namespace VisualAlgorithm
         private void comboboxAlgorithm_SelectedValueChanged(object sender, EventArgs e)
         {
             UIContent.GetInstance().UpdateDataConfig(new DictionaryStructure(Key.g_name[0], comboboxAlgorithm.Text.ToString()));
-            Flag.g_needUpdatePanel = true;
+            Flag.g_needUpdateContentPanel = true;
         }
 
         private void timerUpdate_Tick(object sender, EventArgs e)
         {
-            if(Flag.g_needUpdatePanel)
+            if(Flag.g_needUpdateContentPanel)
             {
                 UIContent.GetInstance().UpdateItem(panelContent);
-                Flag.g_needUpdatePanel = false;
+                Flag.g_needUpdateContentPanel = false;
             }
 
             if(Flag.g_onButtonClick)
@@ -46,6 +46,12 @@ namespace VisualAlgorithm
             {
                 UIContent.GetInstance().UpdateOptionalPanel(panelOptionalControl);
                 Flag.g_needUpdateOptionalPanel = false;
+            }
+
+            if(Flag.g_processing)
+            {
+                UIContent.GetInstance().UpdatePanelDetail(panelDetail,textboxLog);
+                Flag.g_processing = false;
             }
         }
 

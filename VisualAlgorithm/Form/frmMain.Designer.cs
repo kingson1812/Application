@@ -41,11 +41,9 @@
             this.textboxRandomArrayNumber = new System.Windows.Forms.TextBox();
             this.buttonRandom = new System.Windows.Forms.Button();
             this.panelGraphic1 = new System.Windows.Forms.Panel();
-            this.textboxStep = new System.Windows.Forms.TextBox();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.panelDetail.SuspendLayout();
-            this.panelGraphic1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -197,21 +195,10 @@
             this.panelGraphic1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelGraphic1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelGraphic1.Controls.Add(this.textboxStep);
             this.panelGraphic1.Location = new System.Drawing.Point(4, 3);
             this.panelGraphic1.Name = "panelGraphic1";
             this.panelGraphic1.Size = new System.Drawing.Size(748, 51);
             this.panelGraphic1.TabIndex = 0;
-            // 
-            // textboxStep
-            // 
-            this.textboxStep.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textboxStep.Location = new System.Drawing.Point(333, 3);
-            this.textboxStep.Multiline = true;
-            this.textboxStep.Name = "textboxStep";
-            this.textboxStep.Size = new System.Drawing.Size(409, 43);
-            this.textboxStep.TabIndex = 0;
             // 
             // timerUpdate
             // 
@@ -235,8 +222,6 @@
             this.tableLayoutPanel.ResumeLayout(false);
             this.panelDetail.ResumeLayout(false);
             this.panelDetail.PerformLayout();
-            this.panelGraphic1.ResumeLayout(false);
-            this.panelGraphic1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -255,7 +240,6 @@
         private System.Windows.Forms.Button buttonRandom;
         private System.Windows.Forms.Panel panelGraphic1;
         private System.Windows.Forms.Panel panelGraphic2;
-        private System.Windows.Forms.TextBox textboxStep;
         private System.Windows.Forms.Panel panelOptionalControl;
     }
 }

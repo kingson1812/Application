@@ -40,3 +40,8 @@ E_EXPORT void Sort(int sortType, bool asc)
 {
 	Algorithm::GetInstance()->Sort(sortType, asc);
 }
+
+E_EXPORT const char* GetProcess()
+{
+	return Algorithm::GetInstance()->GetProcessData();
+}

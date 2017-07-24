@@ -23,7 +23,10 @@ namespace Function
         public static extern IntPtr GetData();
 
         [DllImport("Algorithm.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr Sort(int sortType, bool asc);
+        public static extern void Sort(int sortType, bool asc);
+
+        [DllImport("Algorithm.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GetProcess();
 
         public static string ConvertToString(List<int> list)
         {

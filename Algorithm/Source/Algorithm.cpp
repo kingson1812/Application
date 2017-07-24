@@ -13,6 +13,11 @@ bool Algorithm::DESC(const int & a, const int & b) const
 	return a < b;
 }
 
+const char * Algorithm::GetProcessData()
+{
+	return m_process.c_str();
+}
+
 Algorithm::Algorithm() :m_data(new vector<int>)
 {}
 
@@ -58,6 +63,7 @@ vector<int>* Algorithm::GetData()
 void Algorithm::Sort(const int &option, const bool& asc)
 {
 	bool (Algorithm::*ptr)(const int&, const int&) const = asc ? &Algorithm::ASC : &Algorithm::DESC;
+	m_process.clear();
 	switch (option)
 	{
 	case 0:
@@ -81,16 +87,31 @@ void Algorithm::InsertionSort(bool (Algorithm::*ptr)(const int&, const int&) con
 {
 	for (int i = 1; i < m_data->size(); i++)
 	{
+		//Hold current index and value to compare
 		int index = i;
 		int value = (*m_data)[i];
-			
+
+		//Append all step to string process and then send to C#
+		m_process.append("{").append(to_string(i)).append("}");
+		
+		//Compare value with previous values
 		while (index > 0 && (Algorithm::GetInstance()->*ptr)((*m_data)[index-1], value))
 		{
+			m_process.append("[").append(to_string(index)).append("]").append("<swap>");
 			(*m_data)[index] = (*m_data)[index - 1];
 			index--;
 		}
+		//If value change, that means index change, allocate new index for value
 		if ((*m_data)[index] != value)
+		{
 			(*m_data)[index] = value;
+			m_process.append("[").append(to_string(index)).append("]").append("<place>");
+		}
+		else
+		{
+			m_process.append("<noswap>");
+		}
+		m_process.append(";");
 	}
 }
 
